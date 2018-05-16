@@ -1,27 +1,58 @@
 VERSION 5.00
 Begin VB.Form Form1 
    Caption         =   "Main window"
-   ClientHeight    =   5190
+   ClientHeight    =   5010
    ClientLeft      =   120
    ClientTop       =   465
-   ClientWidth     =   8055
+   ClientWidth     =   7665
+   ClipControls    =   0   'False
    LinkTopic       =   "Form1"
-   ScaleHeight     =   5190
-   ScaleWidth      =   8055
+   MaxButton       =   0   'False
+   ScaleHeight     =   5010
+   ScaleWidth      =   7665
    StartUpPosition =   3  'Windows Default
+   Begin VB.CheckBox Subd 
+      Caption         =   "Check1"
+      Height          =   255
+      Left            =   240
+      TabIndex        =   16
+      ToolTipText     =   "will check for images in subdirectories of the input folder"
+      Top             =   2520
+      Width           =   255
+   End
+   Begin VB.CheckBox Int1 
+      Caption         =   "Check1"
+      Height          =   195
+      Left            =   240
+      TabIndex        =   14
+      ToolTipText     =   "use if your main GPU is intel graphic's. forces OPENCL on intel graphic's chip's"
+      Top             =   1800
+      Width           =   255
+   End
+   Begin VB.CheckBox Dgpu 
+      Caption         =   "Check1"
+      Height          =   255
+      Left            =   1920
+      TabIndex        =   12
+      ToolTipText     =   "disable GPU rendering to have only CPU rendering. not recomended VERRY SLOW. use for debugging only."
+      Top             =   1800
+      Width           =   255
+   End
    Begin VB.TextBox noise 
       Height          =   285
       Left            =   4320
       TabIndex        =   9
       Text            =   "0"
+      ToolTipText     =   $"Form1.frx":0000
       Top             =   1800
       Width           =   975
    End
    Begin VB.TextBox dScale 
       Height          =   375
-      Left            =   1800
+      Left            =   3000
       TabIndex        =   8
       Text            =   "2"
+      ToolTipText     =   $"Form1.frx":0099
       Top             =   1800
       Width           =   975
    End
@@ -30,6 +61,7 @@ Begin VB.Form Form1
       Left            =   480
       TabIndex        =   7
       Text            =   "C:\"
+      ToolTipText     =   "this is where the upscaled/denoised images will be placed once process is finished."
       Top             =   4440
       Width           =   3975
    End
@@ -38,6 +70,7 @@ Begin VB.Form Form1
       Left            =   480
       TabIndex        =   6
       Text            =   "C:\"
+      ToolTipText     =   "this is the folder where the original images are from."
       Top             =   3480
       Width           =   3975
    End
@@ -55,8 +88,36 @@ Begin VB.Form Form1
       Height          =   495
       Left            =   4440
       TabIndex        =   0
+      ToolTipText     =   $"Form1.frx":016A
       Top             =   3960
       Width           =   2775
+   End
+   Begin VB.Label Label8 
+      AutoSize        =   -1  'True
+      Caption         =   "look for subdirectories"
+      Height          =   195
+      Left            =   240
+      TabIndex        =   15
+      Top             =   2160
+      Width           =   1545
+   End
+   Begin VB.Label Label7 
+      AutoSize        =   -1  'True
+      Caption         =   "Intel Graphic's mode"
+      Height          =   195
+      Left            =   120
+      TabIndex        =   13
+      Top             =   1440
+      Width           =   1440
+   End
+   Begin VB.Label Label6 
+      AutoSize        =   -1  'True
+      Caption         =   "disable GPU"
+      Height          =   195
+      Left            =   1920
+      TabIndex        =   11
+      Top             =   1440
+      Width           =   885
    End
    Begin VB.Label L6 
       Caption         =   "Label6"
@@ -105,7 +166,7 @@ Begin VB.Form Form1
    End
    Begin VB.Label Label3 
       AutoSize        =   -1  'True
-      Caption         =   "noise level"
+      Caption         =   "noise reduction level"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   9.75
@@ -119,7 +180,7 @@ Begin VB.Form Form1
       Left            =   4320
       TabIndex        =   3
       Top             =   1440
-      Width           =   975
+      Width           =   1845
    End
    Begin VB.Label Label2 
       AutoSize        =   -1  'True
@@ -134,7 +195,7 @@ Begin VB.Form Form1
          Strikethrough   =   0   'False
       EndProperty
       Height          =   240
-      Left            =   1800
+      Left            =   3000
       TabIndex        =   2
       Top             =   1440
       Width           =   1035
@@ -177,6 +238,10 @@ Dim arg As String
                     arg = " -i " + locin.Text + " -o " + locout.Text + " --scale_ratio " + dScale.Text + " -m noise_scale " + " --noise_level " + noise.Text
                 End If
     End If
+    If Dgpu.Value = 1 Then arg = arg + " --disable-gpu"
+    If Int1.Value = 1 Then arg = arg + " --force-OpenCL"
+    If Subd.Value = 1 Then arg = arg + " -r 1"
+    If Subd.Value = 0 Then arg = arg + " -r 0"
     s = ".\waifu2x-converter-cpp.exe" + arg
     Dim iFileNo As Integer
         iFileNo = FreeFile
@@ -185,3 +250,4 @@ Dim arg As String
         Close #iFileNo
     MsgBox "you can now double click on RunMe.bat to run waifu2X as programmed here", vbExclamation
 End Sub
+
