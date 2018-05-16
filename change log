@@ -1,3 +1,10 @@
+# version 1.2
+added the option to force open CL on intel GPU.
+added option for CPU rendering
+added option for subdirectory loockup
+added tooltip's to the many options.
+fixed some syntax.
+
 version 1.1
 auto detect weather to use noise&scale, noise only or scale only param depending on if one of the box has a 0 in it.
 added indentation to the code for esier reading
