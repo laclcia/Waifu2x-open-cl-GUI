@@ -168,17 +168,20 @@ Private Sub Command1_Click()
 Dim s As String
 Dim P As String
 Dim arg As String
-If noise.Text = 0 Then
-arg = " -i " + locin.Text + " -o " + locout.Text + " --scale_ratio " + dScale.Text + " -m scale"
-s = ".\waifu2x-converter-cpp.exe" + arg
-Else
-arg = " -i " + locin.Text + " -o " + locout.Text + " --scale_ratio " + dScale.Text + " -m noise_scale " + " --noise_level " + noise.Text
-s = ".\waifu2x-converter-cpp.exe" + arg
-End If
-Dim iFileNo As Integer
-iFileNo = FreeFile
-Open ".\RunMe.bat" For Output As #iFileNo
-Print #iFileNo, s
-Close #iFileNo
-MsgBox "you can now double click on RunMe.bat to run waifu2X as programmed here", vbExclamation
+    If noise.Text = 0 Then
+        arg = " -i " + locin.Text + " -o " + locout.Text + " --scale_ratio " + dScale.Text + " -m scale"
+            Else
+                If dScale.Text = 0 Then
+                    arg = " -i " + locin.Text + " -o " + locout.Text + " -m noise " + " --noise_level " + noise.Text
+                Else
+                    arg = " -i " + locin.Text + " -o " + locout.Text + " --scale_ratio " + dScale.Text + " -m noise_scale " + " --noise_level " + noise.Text
+                End If
+    End If
+    s = ".\waifu2x-converter-cpp.exe" + arg
+    Dim iFileNo As Integer
+        iFileNo = FreeFile
+            Open ".\RunMe.bat" For Output As #iFileNo
+            Print #iFileNo, s
+        Close #iFileNo
+    MsgBox "you can now double click on RunMe.bat to run waifu2X as programmed here", vbExclamation
 End Sub
