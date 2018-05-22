@@ -230,12 +230,12 @@ Dim s As String
 Dim P As String
 Dim arg As String
     If noise.Text = 0 Then
-        arg = " -i " + locin.Text + " -o " + locout.Text + " --scale_ratio " + dScale.Text + " -m scale"
+        arg = " -i " + Chr$(34) + locin.Text + Chr$(34) + " -o " + Chr$(34) + locout.Text + Chr$(34) + " --scale_ratio " + dScale.Text + " -m scale"
             Else
                 If dScale.Text = 0 Then
-                    arg = " -i " + locin.Text + " -o " + locout.Text + " -m noise " + " --noise_level " + noise.Text
+                    arg = " -i " + Chr$(34) + locin.Text + Chr$(34) + " -o " + Chr$(34) + locout.Text + Chr$(34) + " -m noise " + " --noise_level " + noise.Text
                 Else
-                    arg = " -i " + locin.Text + " -o " + locout.Text + " --scale_ratio " + dScale.Text + " -m noise_scale " + " --noise_level " + noise.Text
+                    arg = " -i " + Chr$(34) + locin.Text + Chr$(34) + " -o " + Chr$(34) + locout.Text + Chr$(34) + " --scale_ratio " + dScale.Text + " -m noise_scale " + " --noise_level " + noise.Text
                 End If
     End If
     If Dgpu.Value = 1 Then arg = arg + " --disable-gpu"
